@@ -279,6 +279,8 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+        echo "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+        git config --global credential.helper store --file=~/.git-credentials
 
       # Send Build 'start' notification
     - name: Telegram Notification
