@@ -5,6 +5,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+env:
+   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+   GH_USERNAME: ${{ secrets.GH_USERNAME }}
+
 name: Crave Builder(self-hosted)
 on:
   workflow_dispatch:
@@ -209,6 +213,8 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+        echo "https://$GH_USERNAME:$GH_TOKEN@github.com" > ~/.git-credentials
+        git config --global credential.helper store --file=~/.git-credentials
 
       # Test Your Personal 'Local Manifests' against The ROM
     - name: Test Local Manifests
@@ -311,7 +317,9 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-      
+        echo "https://$GH_USERNAME:$GH_TOKEN@github.com" > ~/.git-credentials
+        git config --global credential.helper store --file=~/.git-credentials
+
       # Download and configure 'crave'.
     - name: Configure the 'crave' environment
       run: |
