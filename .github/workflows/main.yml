@@ -5,6 +5,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+env:
+   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+   GH_USERNAME: ${{ secrets.GH_USERNAME }}
+
 name: Crave Builder
 on:
   workflow_dispatch:
@@ -173,7 +177,7 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        echo "https://$USERNAME:$TOKEN@github.com" > ~/.git-credentials
+        echo "https://$GH_USERNAME:$GH_TOKEN@github.com" > ~/.git-credentials
         git config --global credential.helper store --file=~/.git-credentials
 
       # Test Your Personal 'Local Manifests' against The ROM
@@ -287,7 +291,7 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        echo "https://$USERNAME:$TOKEN@github.com" > ~/.git-credentials
+        echo "https://$GH_USERNAME:$GH_TOKEN@github.com" > ~/.git-credentials
         git config --global credential.helper store --file=~/.git-credentials
 
       # Send Build 'start' notification
