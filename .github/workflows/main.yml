@@ -167,10 +167,13 @@ jobs:
       
       # Generate 'git' credential in base of the workflow's author.
     - name: Set-up 'git' credential(s)
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
+        USERNAME: ${{ secrets.USERNAME }}
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        echo "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+        echo "https://$USERNAME:$TOKEN@github.com" > ~/.git-credentials
         git config --global credential.helper store --file=~/.git-credentials
 
       # Test Your Personal 'Local Manifests' against The ROM
@@ -278,10 +281,13 @@ jobs:
       
       # Generate 'git' credential in base of the workflow's author.
     - name: Set-up 'git' credential(s)
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
+        USERNAME: ${{ secrets.USERNAME }}
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        echo "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+        echo "https://$USERNAME:$TOKEN@github.com" > ~/.git-credentials
         git config --global credential.helper store --file=~/.git-credentials
 
       # Send Build 'start' notification
