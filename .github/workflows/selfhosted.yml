@@ -5,10 +5,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-env:
-   GH_TOKEN: ${{ secrets.GH_TOKEN }}
-   GH_USERNAME: ${{ secrets.GH_USERNAME }}
-
 name: Crave Builder(self-hosted)
 on:
   workflow_dispatch:
@@ -38,7 +34,7 @@ on:
       LOCAL_MANIFEST:
         description: "Personal local manifest [repository or raw]:"
         required: true
-        default: 'https://github.com/Kneba/local_manifests'
+        default: 'https://github.com/sounddrill31/local_manifests'
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
@@ -46,15 +42,15 @@ on:
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
-        default: "X00TD"
+        default: "oxygen"
       PRODUCT_NAME:
         description: "Product to build:"
         required: true
-        default: "riseup X00TD"
+        default: "lineage_oxygen"
       BUILD_COMMAND:
         description: 'Command to be used for compiling:'
         required: true
-        default: 'rise b'
+        default: 'mka bacon'
       BUILD_TYPE:
         description: 'Type of build:'
         required: true
@@ -213,8 +209,6 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        echo "https://$GH_USERNAME:$GH_TOKEN@github.com" > ~/.git-credentials
-        git config --global credential.helper store --file=~/.git-credentials
 
       # Test Your Personal 'Local Manifests' against The ROM
     - name: Test Local Manifests
@@ -317,9 +311,7 @@ jobs:
       run: |
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        echo "https://$GH_USERNAME:$GH_TOKEN@github.com" > ~/.git-credentials
-        git config --global credential.helper store --file=~/.git-credentials
-
+      
       # Download and configure 'crave'.
     - name: Configure the 'crave' environment
       run: |
@@ -399,7 +391,7 @@ jobs:
         echo "Run ID: ${{ github.run_id }}"; \
 
         # Build the ROM
-        ${{ github.event.inputs.PRODUCT_NAME }} ${{ github.event.inputs.BUILD_TYPE }} && \
+        lunch ${{ github.event.inputs.PRODUCT_NAME }}-${{ github.event.inputs.BUILD_TYPE }} && \
         make installclean && \
         ${{ github.event.inputs.BUILD_COMMAND }}"
       timeout-minutes: 720
