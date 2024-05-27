@@ -400,6 +400,16 @@ jobs:
         lunch ${{ github.event.inputs.PRODUCT_NAME }}-${{ github.event.inputs.BUILD_TYPE }} && \
         make installclean && \
         ${{ github.event.inputs.BUILD_COMMAND }}"
+
+        croot
+        ./build/make/tools/releasetools/sign_target_files_apks -o -d vendor/lineage-priv/keys \
+        $OUT/obj/PACKAGING/target_files_intermediates/*-target_files-*.zip \
+        signed-target_files.zip
+
+        ota_from_target_files -k vendor/lineage-priv/keys/releasekey \
+        --block --backup=true \
+        signed-target_files.zip \
+        signed-ota_update.zip
       timeout-minutes: 720
 
       # Send Build 'status' notification
