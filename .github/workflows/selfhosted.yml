@@ -406,7 +406,7 @@ jobs:
         $OUT/obj/PACKAGING/target_files_intermediates/*-target_files-*.zip \
         signed-target_files.zip
 
-        ota_from_target_files -k vendor/lineage-priv/keys/releasekey \
+        ./build/make/tools/releasetools/ota_from_target_files -k vendor/lineage-priv/keys/releasekey \
         --block --backup=true \
         signed-target_files.zip \
         signed-ota_update.zip
